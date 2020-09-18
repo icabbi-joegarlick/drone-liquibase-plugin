@@ -1,0 +1,21 @@
+workspace:
+  base: /go
+  path: src/github.com/jcbjoe/drone-lambda-plugin
+
+pipeline:
+  build:
+    image: golang:1.9
+    environment:
+      - CGO_ENABLED=0
+    commands:
+      - go get ./...
+      - go build main.go
+
+  docker:
+    image: plugins/docker
+    repo: jcbjoe/drone-liquibase-plugin
+    tags: latest
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
